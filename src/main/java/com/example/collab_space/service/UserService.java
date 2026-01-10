@@ -35,7 +35,10 @@ public class UserService {
         }
         Otp otp = null;
         if(user1 != null && !user1.isActive()){
-            otp = otpService.generateOtp(user1);
+            otp = otpRepository.findByUser(user1);
+            otp.setOtp(otpService.createOtp());
+            otp.setCreationTime(LocalDateTime.now());
+            otp.setExpiryTime(otp.getCreationTime().plusMinutes(5));
             otpRepository.save(otp);
             mailService.registrationOtp(user1.getEmail(), otp.getOtp());
         }else {

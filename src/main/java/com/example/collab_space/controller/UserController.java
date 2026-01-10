@@ -4,14 +4,13 @@ import com.example.collab_space.requestDto.OtpVerificationDto;
 import com.example.collab_space.requestDto.UserRegistrationDto;
 import com.example.collab_space.service.OtpService;
 import com.example.collab_space.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 public class UserController {
 
@@ -25,11 +24,14 @@ public class UserController {
         userService.userRegistration(registrationDto);
     }
 
+
+
     @PutMapping("/otp/verify")
     public ResponseEntity<String> otpVerification(@RequestBody OtpVerificationDto verificationDto){
         try {
-            if(otpService.verify(verificationDto))
-            return new ResponseEntity<>("Otp is verified", HttpStatus.OK);
+            if(otpService.verify(verificationDto)) {
+                return new ResponseEntity<>("Otp is verified", HttpStatus.OK);
+            }
         } catch (RuntimeException e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
         }

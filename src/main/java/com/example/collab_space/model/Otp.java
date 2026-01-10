@@ -20,7 +20,7 @@ public class Otp {
     @OneToOne
     User user;
 
-    @CreationTimestamp
+    @Column(nullable = false)
     LocalDateTime creationTime;
 
     @Column(nullable = false)
